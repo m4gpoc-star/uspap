@@ -201,4 +201,17 @@ button:hover {
       gap: 0.5rem;
     }
 
+/* USPAP 红色（搭配 Tiffany Blue） */
+.usp-highlight {
+  color: #FF6B6B;
+  text-shadow: 0 0 10px rgba(255, 107, 107, 0.6);
+}
+
+/* Hydy 蒂芙尼蓝 */
+.hydy-highlight {
+  color: #0ABAB5;
+  text-shadow: 0 0 10px rgba(10, 186, 181, 0.6);
+}
+
+
 

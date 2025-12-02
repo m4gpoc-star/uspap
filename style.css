@@ -154,15 +154,16 @@ button:hover {
 
 .home-grid {
   width: 100%;
-  max-width: 600px;
-  display: flex;
-  flex-direction: column;
+  max-width: 800px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));  /* 手机：2 列 */
   gap: 1rem;
 }
 
-@media (min-width: 640px) {
+/* 大屏：4 列 */
+@media (min-width: 900px) {
   .home-grid {
-    flex-direction: row;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
@@ -185,6 +186,15 @@ button:hover {
 .home-card h2 {
   font-size: 1.25rem;
   margin-bottom: 0.2rem;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);  /* 统一文字阴影 */
+}
+
+.home-card-icon {
+  display: inline-block;
+  margin-right: 0.4rem;
+  font-size: 1.1rem;
+  vertical-align: -1px;
+  opacity: 0.95;
 }
 
 .home-card p {
@@ -194,10 +204,11 @@ button:hover {
 }
 
 .home-card:hover {
-  transform: translateY(-2px);
-  border-color: #2563eb;
-  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.7);
+  transform: translateY(-4px);
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.9);
+  filter: brightness(1.08);
 }
+
 
 .home-tag {
   align-self: flex-start;
@@ -225,6 +236,34 @@ button:hover {
 .hydy-highlight {
   color: #0ABAB5;
   text-shadow: 0 0 10px rgba(10, 186, 181, 0.6);
+}
+
+/* ==========================
+   Home Card Color Themes
+   ========================== */
+
+/* Flashcards - 深绿色（柔和） */
+.card-green {
+  background: linear-gradient(135deg, #0f2f24, #134e3a);
+  border-color: #1f6f55;
+}
+
+/* Quiz - 深蓝色（主功能色） */
+.card-blue {
+  background: linear-gradient(135deg, #10203a, #1e3a8a);
+  border-color: #3b82f6;
+}
+
+/* Wrong Questions - 柔粉色（提示但不刺眼） */
+.card-pink {
+  background: linear-gradient(135deg, #2a0f1f, #4f1d35);
+  border-color: #be185d;
+}
+
+/* Settings - 淡灰色（工具、低存在感） */
+.card-gray {
+  background: linear-gradient(135deg, #1a1a1e, #2b2b31);
+  border-color: #4b5563;
 }
 
 

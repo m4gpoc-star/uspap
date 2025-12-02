@@ -1,13 +1,19 @@
 // ===== Speech synthesis：出题自动朗读题干 =====
 
 let quizVoice = null;
+const VOICE_KEY = "uspapVoicePreference";   // 语音设置 key
+const QUIZ_STATE_KEY = "uspapQuizState";    // Quiz 进度保存 key
+
+// 倒计时相关
+const timerEl = document.getElementById("quiz-timer");
+let timerId = null;
+let timeLeft = 16;
+
 
 function initQuizVoice() {
   if (typeof speechSynthesis === "undefined") {
     return;
   }
-
-  const VOICE_KEY = "uspapVoicePreference";
 
   function chooseVoice() {
     const voices = speechSynthesis.getVoices();
@@ -55,6 +61,12 @@ function initQuizVoice() {
 function speakQuestion(text) {
   if (!text || typeof speechSynthesis === "undefined") return;
 
+  // 如果在 Setting 里选了静音，直接不读
+  const preferred = localStorage.getItem(VOICE_KEY);
+  if (preferred === "mute") {
+    return;
+  }
+
   const utterance = new SpeechSynthesisUtterance(text);
 
   if (quizVoice) {
@@ -71,6 +83,7 @@ function speakQuestion(text) {
   speechSynthesis.cancel();
   speechSynthesis.speak(utterance);
 }
+
 
 
 // ===== 错题本功能 =====
@@ -528,19 +541,82 @@ const feedbackEl = document.getElementById("quiz-feedback");
 const progressEl = document.getElementById("quiz-progress");
 const nextBtn = document.getElementById("quiz-next-btn");
 
+////////////////////////////////////////////////////////////
+
+function startTimer() {
+  if (!timerEl) return;
+
+  // 清掉旧定时器
+  if (timerId) {
+    clearInterval(timerId);
+    timerId = null;
+  }
+
+  timeLeft = 16;
+  timerEl.textContent = `Time left: ${timeLeft}s`;
+
+  timerId = setInterval(() => {
+    timeLeft--;
+    if (timeLeft <= 0) {
+      clearInterval(timerId);
+      timerId = null;
+      timerEl.textContent = "Time's up!";
+
+      handleTimeout();
+    } else {
+      timerEl.textContent = `Time left: ${timeLeft}s`;
+    }
+  }, 1000);
+}
+
+
+// 超时自动判错 + 自动跳下一题
+function handleTimeout() {
+  if (hasAnsweredCurrent) return;  // 已答就不触发
+  hasAnsweredCurrent = true;
+
+  const q = quizQuestions[currentIndex];
+  const correctIndex = q.answer;
+
+  const optionButtons = optionsEl.querySelectorAll(".quiz-option");
+  optionButtons.forEach((btn, idx) => {
+    btn.disabled = true;
+    if (idx === correctIndex) {
+      btn.classList.add("correct");
+    }
+  });
+
+  feedbackEl.textContent = `Time's up! ⏰ Correct answer: "${q.options[correctIndex]}".`;
+  feedbackEl.className = "quiz-feedback incorrect";
+
+  // 超时算错题
+  addWrongQuestion(q);
+
+  progressEl.textContent = `Question ${currentIndex + 1} of ${quizQuestions.length} · Score: ${score}`;
+  nextBtn.disabled = false;
+
+  // 0.8 秒后自动下一题
+  setTimeout(() => {
+    goToNextQuestion();
+  }, 800);
+}
+
 function renderQuestion() {
   const q = quizQuestions[currentIndex];
   hasAnsweredCurrent = false;
+
+  // 清空反馈
   feedbackEl.textContent = "";
   feedbackEl.className = "quiz-feedback";
 
-  // 进度
-  progressEl.textContent = `Question ${currentIndex + 1} of ${quizQuestions.length} · Score: ${score}`;
+  // 更新进度
+  progressEl.textContent =
+    `Question ${currentIndex + 1} of ${quizQuestions.length} · Score: ${score}`;
 
   // 题干
   questionEl.textContent = q.question;
 
-  // ✅ 出新题时自动朗读题干
+  // 出新题时自动朗读题干
   speakQuestion(questionEl.textContent);
 
   // 选项
@@ -553,13 +629,25 @@ function renderQuestion() {
     optionsEl.appendChild(btn);
   });
 
+  // 禁用“下一题”按钮，等用户答题或超时
   nextBtn.disabled = true;
+
+  // 启动 16 秒倒计时
+  startTimer();
+
+  // 保存当前进度（题目顺序 + 当前 index + 分数）
+  saveQuizState();
 }
 
 
 function handleAnswer(selectedIndex, buttonEl) {
   if (hasAnsweredCurrent) return;
   hasAnsweredCurrent = true;
+// 停掉计时器
+  if (timerId) {
+    clearInterval(timerId);
+    timerId = null;
+  }
 
   const q = quizQuestions[currentIndex];
   const correctIndex = q.answer;
@@ -588,10 +676,19 @@ function handleAnswer(selectedIndex, buttonEl) {
   }
 
   progressEl.textContent = `Question ${currentIndex + 1} of ${quizQuestions.length} · Score: ${score}`;
-  nextBtn.disabled = false;
+    nextBtn.disabled = false;
+
+  // 保存答题后的进度
+  saveQuizState();
 }
 
-nextBtn.addEventListener("click", () => {
+function goToNextQuestion() {
+  // 每次切题前先停掉旧定时器
+  if (timerId) {
+    clearInterval(timerId);
+    timerId = null;
+  }
+
   if (currentIndex < quizQuestions.length - 1) {
     currentIndex++;
     renderQuestion();
@@ -602,8 +699,17 @@ nextBtn.addEventListener("click", () => {
     feedbackEl.className = "quiz-feedback correct";
     feedbackEl.textContent = `You answered ${score} out of ${quizQuestions.length} questions correctly.`;
     nextBtn.disabled = true;
+    if (timerEl) {
+      timerEl.textContent = "Done";
+    }
   }
-});
+
+  // 切题后也保存一次
+  saveQuizState();
+}
+
+nextBtn.addEventListener("click", goToNextQuestion);
+
 
 function shuffleQuiz() {
   // Fisher-Yates 洗牌算法，原地打乱 quizQuestions
@@ -615,13 +721,63 @@ function shuffleQuiz() {
   // 重置进度和分数，从第一题重新开始
   currentIndex = 0;
   score = 0;
+
   renderQuestion();
+  saveQuizState();
 }
 
 
-// 初始化：先准备语音，再出第一题
+function saveQuizState() {
+  try {
+    const state = {
+      currentIndex,
+      score,
+      questions: quizQuestions
+    };
+    localStorage.setItem(QUIZ_STATE_KEY, JSON.stringify(state));
+  } catch (e) {
+    // 本地存储失败就算了，不影响做题
+  }
+}
+
+function loadQuizState() {
+  const raw = localStorage.getItem(QUIZ_STATE_KEY);
+  if (!raw) return false;
+
+  try {
+    const state = JSON.parse(raw);
+    if (!state || !Array.isArray(state.questions) || state.questions.length === 0) {
+      return false;
+    }
+
+    // 把题目顺序恢复到上次的
+    quizQuestions.length = 0;
+    state.questions.forEach(q => quizQuestions.push(q));
+
+    currentIndex = Number.isInteger(state.currentIndex) ? state.currentIndex : 0;
+    score = typeof state.score === "number" ? state.score : 0;
+
+    if (currentIndex < 0 || currentIndex >= quizQuestions.length) {
+      currentIndex = 0;
+    }
+
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+
+// 初始化：先准备语音
 initQuizVoice();
-renderQuestion();
+
+// 如果有历史记录，就从历史位置继续；否则第一次使用就乱序开始
+if (!loadQuizState()) {
+  // 第一次或无历史：默认乱序
+  shuffleQuiz();
+} else {
+  renderQuestion();
+}
 
 // 如果需要，这里也可以注册同一个 service worker
 if ("serviceWorker" in navigator) {

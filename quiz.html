@@ -15,6 +15,12 @@
   <style>
     /* Quiz 专用小样式，放这里就行，不会影响大局 */
 
+.quiz-timer {
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  color: #fbbf24; /* 金黄色，显眼一点 */
+}
+
     .quiz-main {
       flex: 1;
       display: flex;
@@ -137,6 +143,8 @@
   <main class="quiz-main">
     <section class="quiz-card">
       <div id="quiz-progress" class="quiz-footer-bar"></div>
+      <div id="quiz-timer" class="quiz-timer">Time left: 16s</div>
+
 
       <div class="quiz-toolbar">
         <button class="link-button" type="button" onclick="shuffleQuiz()">

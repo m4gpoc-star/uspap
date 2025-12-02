@@ -572,16 +572,19 @@ function startTimer() {
 
 // 超时自动判错 + 自动跳下一题
 function handleTimeout() {
-  if (hasAnsweredCurrent) return;  // 已答就不触发
+  if (hasAnsweredCurrent) return;
   hasAnsweredCurrent = true;
 
   const q = quizQuestions[currentIndex];
   const correctIndex = q.answer;
 
   const optionButtons = optionsEl.querySelectorAll(".quiz-option");
-  optionButtons.forEach((btn, idx) => {
+  optionButtons.forEach((btn) => {
     btn.disabled = true;
-    if (idx === correctIndex) {
+
+    const optIndex = Number(btn.dataset.optionIndex);
+
+    if (optIndex === correctIndex) {
       btn.classList.add("correct");
     }
   });
@@ -619,15 +622,35 @@ function renderQuestion() {
   // 出新题时自动朗读题干
   speakQuestion(questionEl.textContent);
 
-  // 选项
-  optionsEl.innerHTML = "";
-  q.options.forEach((opt, idx) => {
-    const btn = document.createElement("button");
-    btn.className = "quiz-option";
-    btn.textContent = opt;
-    btn.addEventListener("click", () => handleAnswer(idx, btn));
-    optionsEl.appendChild(btn);
-  });
+// 选项（随机排列）
+optionsEl.innerHTML = "";
+
+// 1. 生成带有 index 的临时数组（确保能正确判断答案）
+let randomizedOptions = q.options.map((opt, idx) => ({
+  text: opt,
+  index: idx  // 保留原始 index（答案判断要用）
+}));
+
+// 2. Fisher-Yates 洗牌算法（最稳定的随机方法）
+for (let i = randomizedOptions.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [randomizedOptions[i], randomizedOptions[j]] = [randomizedOptions[j], randomizedOptions[i]];
+}
+
+// 3. 按随机顺序渲染按钮
+randomizedOptions.forEach((item) => {
+  const btn = document.createElement("button");
+  btn.className = "quiz-option";
+  btn.textContent = item.text;
+  // ⬇ 记住这个按钮对应原来的哪个选项（0~3）
+  btn.dataset.optionIndex = item.index;
+
+  // 这里用 item.index（不是 forEach 的 idx），才不会影响正确答案判断
+  btn.addEventListener("click", () => handleAnswer(item.index, btn));
+
+  optionsEl.appendChild(btn);
+});
+
 
   // 禁用“下一题”按钮，等用户答题或超时
   nextBtn.disabled = true;
@@ -652,13 +675,16 @@ function handleAnswer(selectedIndex, buttonEl) {
   const q = quizQuestions[currentIndex];
   const correctIndex = q.answer;
 
-  const optionButtons = optionsEl.querySelectorAll(".quiz-option");
-  optionButtons.forEach((btn, idx) => {
+const optionButtons = optionsEl.querySelectorAll(".quiz-option");
+  optionButtons.forEach((btn) => {
     btn.disabled = true;
-    if (idx === correctIndex) {
+
+    const optIndex = Number(btn.dataset.optionIndex); // 取出原来的 index
+
+    if (optIndex === correctIndex) {
       btn.classList.add("correct");
     }
-    if (idx === selectedIndex && idx !== correctIndex) {
+    if (optIndex === selectedIndex && optIndex !== correctIndex) {
       btn.classList.add("incorrect");
     }
   });

@@ -1,3 +1,54 @@
+// ===== Speech synthesis：出题自动朗读题干 =====
+let quizVoice = null;
+
+// 选择一个合适的女声（优先中文）
+function initQuizVoice() {
+  if (typeof speechSynthesis === "undefined") {
+    return;
+  }
+
+  function chooseVoice() {
+    const voices = speechSynthesis.getVoices();
+    if (!voices || !voices.length) return;
+
+    // 优先：中文 + 女声
+    quizVoice =
+      voices.find(v => v.lang.startsWith("zh") && /Female|女/i.test(v.name)) ||
+      voices.find(v => v.lang.startsWith("zh")) ||
+      voices.find(v => /Female|女/i.test(v.name)) ||
+      voices[0];
+  }
+
+  chooseVoice();
+
+  // 某些浏览器会异步加载 voice，这里再监听一次
+  if (typeof speechSynthesis.onvoiceschanged !== "undefined") {
+    speechSynthesis.onvoiceschanged = chooseVoice;
+  }
+}
+
+// 朗读题干：女声（如果有）、中速
+function speakQuestion(text) {
+  if (!text || typeof speechSynthesis === "undefined") return;
+
+  const utterance = new SpeechSynthesisUtterance(text);
+
+  if (quizVoice) {
+    utterance.voice = quizVoice;
+    utterance.lang = quizVoice.lang;
+  } else {
+    utterance.lang = "zh-CN"; // 兜底用中文
+  }
+
+  utterance.rate = 1;   // 中速
+  utterance.pitch = 1;  // 正常音调
+
+  // 避免前一题没播完叠在一起
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utterance);
+}
+
+
 // ===== 错题本功能 =====
 const WRONG_KEY = 'uspapWrongQuestions';
 
@@ -465,6 +516,9 @@ function renderQuestion() {
   // 题干
   questionEl.textContent = q.question;
 
+  // ✅ 出新题时自动朗读题干
+  speakQuestion(questionEl.textContent);
+
   // 选项
   optionsEl.innerHTML = "";
   q.options.forEach((opt, idx) => {
@@ -477,6 +531,7 @@ function renderQuestion() {
 
   nextBtn.disabled = true;
 }
+
 
 function handleAnswer(selectedIndex, buttonEl) {
   if (hasAnsweredCurrent) return;
@@ -540,7 +595,8 @@ function shuffleQuiz() {
 }
 
 
-// 初始化
+// 初始化：先准备语音，再出第一题
+initQuizVoice();
 renderQuestion();
 
 // 如果需要，这里也可以注册同一个 service worker

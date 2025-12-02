@@ -116,6 +116,20 @@ button {
   cursor: pointer;
 }
 
+.nav-btn {
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  background: #2563eb;     /* 主蓝色 */
+  color: #f9fafb;
+  border: none;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.nav-btn:hover {
+  opacity: 0.9;
+}
+
 button:hover {
   opacity: 0.9;
 }

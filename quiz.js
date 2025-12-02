@@ -3,6 +3,13 @@
 let quizVoice = null;
 const VOICE_KEY = "uspapVoicePreference";   // 语音设置 key
 const QUIZ_STATE_KEY = "uspapQuizState";    // Quiz 进度保存 key
+const QUIZ_TIMER_KEY = "uspapQuizTimerEnabled";  // "on" 或 "off"
+function isQuizTimerOn() {
+  const v = localStorage.getItem(QUIZ_TIMER_KEY);
+  // 默认视为开启（避免第一次进来没有设置）
+  return v !== "off";
+}
+
 
 // 倒计时相关
 const timerEl = document.getElementById("quiz-timer");
@@ -216,7 +223,7 @@ const quizQuestions = [
     answer: 0
   },
   {
-    question: "Which is NOT a responsibility of the Appraisal Subcommittee (ASC)?",
+    question: "Which is NOT a responsibility of the Appraisal Subcommittee小组委员会 (ASC)?",
     options: [
       "Writing, interpreting, and amending USPAP",
       "Overseeing each state’s appraiser licensing and certification program",
@@ -248,7 +255,7 @@ const quizQuestions = [
     answer: 3
   },
   {
-    question: "Which of these is considered an integral part of USPAP and has the same weight as the components they address?",
+    question: "Which of these is considered an integral必须的 part of USPAP and has the same weight as the components they address?",
     options: [
       "USPAP FAQs",
       "Advisory Opinions",
@@ -312,12 +319,12 @@ const quizQuestions = [
     answer: 0
   },
   {
-    question: "When obligated by law or regulation, an appraiser _______ comply with USPAP.",
+    question: "When obligated强迫的 by law or regulation, an appraiser _______ comply with USPAP.",
     options: ["Must", "Should", "May choose to", "Need not"],
     answer: 0
   },
   {
-    question: "The PREAMBLE states that USPAP is intended to benefit:",
+    question: "The PREAMBLE序言 states that USPAP is intended to benefit:",
     options: [
       "Borrowers in mortgage-lending appraisal assignments",
       "Users of appraisal services only",
@@ -361,7 +368,7 @@ const quizQuestions = [
     answer: 1
   },
   {
-    question: "A valuation service that is premised upon advocacy:",
+    question: "A valuation service that is premised upon基于前提 advocacy:",
     options: [
       "Is an appraisal review assignment under STANDARDS 3 and 4",
       "Can be performed by an individual acting as an appraiser with appropriate disclosure",
@@ -546,7 +553,18 @@ const nextBtn = document.getElementById("quiz-next-btn");
 function startTimer() {
   if (!timerEl) return;
 
-  // 清掉旧定时器
+  // 如果用户在 Settings 关闭计时器
+  if (!isQuizTimerOn()) {
+    // 停掉旧计时器
+    if (timerId) {
+      clearInterval(timerId);
+      timerId = null;
+    }
+    timerEl.textContent = "Timer OFF";  // 或者 "" 来隐藏
+    return;
+  }
+
+  // ===== 以下是原本的计时逻辑 =====
   if (timerId) {
     clearInterval(timerId);
     timerId = null;
@@ -555,7 +573,7 @@ function startTimer() {
   timeLeft = 16;
   timerEl.textContent = `Time left: ${timeLeft}s`;
 
-  timerId = setInterval(() => {
+   timerId = setInterval(() => {
     timeLeft--;
     if (timeLeft <= 0) {
       clearInterval(timerId);

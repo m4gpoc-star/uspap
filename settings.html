@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Settings · Learn USPAP with Hydy</title>
+  <title>USPAP Settings</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- PWA manifest -->
@@ -15,15 +15,15 @@
   <style>
     .settings-main {
       flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding: 1.2rem;
-      gap: 1.2rem;
       max-width: 700px;
       margin: 0 auto;
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
     }
 
-    .settings-card {
+    .settings-section {
       border-radius: 18px;
       padding: 1.2rem 1.4rem;
       border: 1px solid #1f2937;
@@ -31,153 +31,119 @@
       box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
     }
 
-    .settings-section-title {
-      font-size: 1.1rem;
-      margin-bottom: 0.8rem;
-    }
-
-    .voice-list {
-      list-style: none;
-      padding-left: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .voice-item label {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.5rem;
-      font-size: 0.95rem;
-      cursor: pointer;
-    }
-
-    .voice-item small {
-      display: block;
-      font-size: 0.8rem;
-      color: #9ca3af;
-      margin-top: 0.2rem;
-    }
-
-    .settings-actions {
-      margin-top: 0.8rem;
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    .settings-credit {
-      margin-top: 1.2rem;
-      font-size: 0.9rem;
-      line-height: 1.5;
+    .settings-section h2 {
+      font-size: 1rem;
+      margin-bottom: 0.6rem;
       color: #e5e7eb;
     }
 
-    .settings-credit span {
-      display: block;
-      margin-bottom: 0.3rem;
+    .settings-section p {
+      font-size: 0.85rem;
+      color: #9ca3af;
+      margin-bottom: 0.8rem;
+    }
+
+    .settings-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.8rem;
+      font-size: 0.9rem;
+    }
+
+    .settings-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .settings-row span {
+      flex: 1;
+    }
+
+    .settings-select {
+      min-width: 160px;
+      padding: 0.35rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid #374151;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .settings-select:focus {
+      border-color: #2563eb;
+    }
+
+    .settings-note {
+      font-size: 0.75rem;
+      color: #6b7280;
+      margin-top: 0.4rem;
+    }
+
+    .settings-back-row {
+      display: flex;
+      justify-content: flex-start;
+      margin-top: 0.5rem;
     }
   </style>
 </head>
 <body>
   <header class="app-header">
     <h1>Settings</h1>
-    <p class="subtitle">Choose quiz reading voice </p>
-    <button class="link-button" onclick="window.location.href='index.html'">
-      ← Back to Home
-    </button>
+    <p class="subtitle">Customize your USPAP study experience</p>
   </header>
 
   <main class="settings-main">
-    <section class="settings-card">
-      <h2 class="settings-section-title">Quiz Voice </h2>
+    <section class="settings-section">
+      <h2>Voice Settings</h2>
+      <p>Choose the voice used to read quiz questions aloud.</p>
 
-      <form id="voice-form">
-        <ul class="voice-list">
-          <li class="voice-item">
-            <label>
-              <input type="radio" name="voice" value="google_us" />
-              <div>
-                <div>Google US English </div>
+      <div class="settings-row">
+        <span>Question reading voice</span>
+        <select id="voice-select" class="settings-select">
+          <option value="auto">Auto (system best)</option>
+          <option value="google_us">English · Google US</option>
+          <option value="aria">English · Aria</option>
+          <option value="samantha">English · Samantha</option>
+          <option value="mute">Mute (no reading)</option>
+        </select>
+      </div>
 
-              </div>
-            </label>
-          </li>
-
-          <li class="voice-item">
-            <label>
-              <input type="radio" name="voice" value="aria" />
-              <div>
-                <div>Microsoft Aria </div>
-
-              </div>
-            </label>
-          </li>
-
-          <li class="voice-item">
-            <label>
-              <input type="radio" name="voice" value="samantha" />
-              <div>
-                <div>Samantha </div>
-
-              </div>
-            </label>
-          </li>
-        </ul>
-
-<li class="voice-item">
-  <label>
-    <input type="radio" name="voice" value="mute" />
-    <div>
-      <div>Mute </div>
-    </div>
-  </label>
-</li>
-
-
-        <div class="settings-actions">
-          <button type="submit">Save</button>
-        </div>
-      </form>
-
-      <div class="settings-credit">
-        <span>汪汪汪，小吴同学绝对是个大牛逼，他建立了这个APP，他特么超级聪明，心地善良，而且长得很帅，全美国排名第一.</span>
-        <span>Hydy is awesome. He built this app. He is smart, kind-hearted, and very handsome.</span>
+      <div class="settings-note">
+        This setting affects quiz question reading in the Quiz page.
       </div>
     </section>
+
+    <section class="settings-section">
+      <h2>Quiz Settings</h2>
+      <p>Control the timer behavior and pacing of your quiz practice.</p>
+
+      <div class="settings-row">
+        <span>16-second timer for each question</span>
+        <select id="quiz-timer-select" class="settings-select">
+          <option value="on">On (16 seconds, auto next question)</option>
+          <option value="off">Off (no timer, manual pace)</option>
+        </select>
+      </div>
+
+      <div class="settings-note">
+        When OFF, the timer is disabled and questions will not auto-advance on timeout.
+      </div>
+    </section>
+
+    <div class="settings-back-row">
+      <button class="nav-btn" onclick="window.location.href='index.html'">
+        ← Back to Home
+      </button>
+    </div>
   </main>
 
   <footer class="app-footer">
-    <p>Voice settings are saved on this device only.</p>
+    <p>Settings are stored locally on this device.</p>
   </footer>
 
-  <script>
-    const VOICE_KEY = "uspapVoicePreference";
-
-    // 页面加载时，把之前的选择勾上
-    document.addEventListener("DOMContentLoaded", () => {
-      const saved = localStorage.getItem(VOICE_KEY);
-      if (saved) {
-        const input = document.querySelector(
-          'input[name="voice"][value="' + saved + '"]'
-        );
-        if (input) {
-          input.checked = true;
-        }
-      }
-    });
-
-    // 保存设置
-    document.getElementById("voice-form").addEventListener("submit", (e) => {
-      e.preventDefault();
-      const checked = document.querySelector('input[name="voice"]:checked');
-      if (!checked) {
-        alert("请选择一个声音 / Please choose a voice.");
-        return;
-      }
-      localStorage.setItem(VOICE_KEY, checked.value);
-      alert("已保存。下次做 Quiz 时会尽量使用这个声音。\\nSaved. The quiz will try to use this voice.");
-    });
-  </script>
+  <script src="settings.js"></script>
 </body>
+
 </html>

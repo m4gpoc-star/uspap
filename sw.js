@@ -1,4 +1,4 @@
-const CACHE_NAME = "uspap-pwa-v2";
+const CACHE_NAME = "uspap-pwa-v3";
 
 const ASSETS_TO_CACHE = [
   "/uspap/",

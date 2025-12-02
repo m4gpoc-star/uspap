@@ -1,31 +1,55 @@
 // ===== Speech synthesis：出题自动朗读题干 =====
+
 let quizVoice = null;
 
-// 选择一个合适的女声（优先中文）
 function initQuizVoice() {
   if (typeof speechSynthesis === "undefined") {
     return;
   }
 
+  const VOICE_KEY = "uspapVoicePreference";
+
   function chooseVoice() {
     const voices = speechSynthesis.getVoices();
     if (!voices || !voices.length) return;
 
-    // 优先：中文 + 女声
-    quizVoice =
-      voices.find(v => v.lang.startsWith("zh") && /Female|女/i.test(v.name)) ||
-      voices.find(v => v.lang.startsWith("zh")) ||
-      voices.find(v => /Female|女/i.test(v.name)) ||
-      voices[0];
+    const preferred = localStorage.getItem(VOICE_KEY);
+    let chosen = null;
+
+    // 1️⃣ 先根据 Setting 里的偏好来选
+    if (preferred === "google_us") {
+      chosen =
+        voices.find(v => v.name.includes("Google US English")) ||
+        voices.find(v => v.lang === "en-US" && /female/i.test(v.name));
+    } else if (preferred === "aria") {
+      chosen =
+        voices.find(v => v.name.includes("Aria")) ||
+        voices.find(v => v.lang === "en-US" && /aria/i.test(v.name.toLowerCase()));
+    } else if (preferred === "samantha") {
+      chosen =
+        voices.find(v => v.name.includes("Samantha")) ||
+        voices.find(v => v.lang === "en-US" && v.name.toLowerCase().includes("samantha"));
+    }
+
+    // 2️⃣ 如果根据偏好没选到，就用原来的中文女声逻辑兜底
+    if (!chosen) {
+      chosen =
+        voices.find(v => v.lang.startsWith("zh") && /Female|女/i.test(v.name)) ||
+        voices.find(v => v.lang.startsWith("zh")) ||
+        voices.find(v => /Female|女/i.test(v.name)) ||
+        voices[0];
+    }
+
+    quizVoice = chosen;
   }
 
   chooseVoice();
 
-  // 某些浏览器会异步加载 voice，这里再监听一次
   if (typeof speechSynthesis.onvoiceschanged !== "undefined") {
     speechSynthesis.onvoiceschanged = chooseVoice;
   }
 }
+
 
 // 朗读题干：女声（如果有）、中速
 function speakQuestion(text) {

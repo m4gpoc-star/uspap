@@ -48,11 +48,14 @@
 
   <script>
     // 注册 Service Worker，保证首页也能离线
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker
-          .register("/sw.js")
-          .catch(err => console.error("SW registration failed:", err));
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("sw.js")
+      .catch(err => console.error("SW registration failed:", err));
+  });
+}
+
       });
     }
   </script>

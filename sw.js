@@ -1,19 +1,18 @@
-const CACHE_NAME = "uspap-pwa-v1";
+const CACHE_NAME = "uspap-pwa-v2";
 
 const ASSETS_TO_CACHE = [
-const ASSETS_TO_CACHE = [
-  "/",
-  "/index.html",
-  "/flashcards.html",
-  "/quiz.html",
-  "/style.css",
-  "/app.js",
-  "/quiz.js",
-  "/manifest.json",
-  "/icons/icon-192.png",
-  "/icons/icon-512.png"
+  "/uspap/",
+  "/uspap/index.html",
+  "/uspap/flashcards.html",
+  "/uspap/quiz.html",
+  "/uspap/wrong.html",
+  "/uspap/style.css",
+  "/uspap/app.js",
+  "/uspap/quiz.js",
+  "/uspap/manifest.json",
+  "/uspap/icons/icon-192.png",
+  "/uspap/icons/icon-512.png"
 ];
-
 
 // 安装阶段：预缓存静态资源
 self.addEventListener("install", (event) => {

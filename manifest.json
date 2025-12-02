@@ -1,8 +1,9 @@
 {
   "name": "USPAP Study Assistant",
   "short_name": "USPAP Study",
-  "description": "基础版 USPAP 闪卡学习助手。",
-  "start_url": "/index.html",
+  "description": "基础版 USPAP 闪卡与测验学习助手。",
+  "start_url": "/uspap/index.html",
+  "scope": "/uspap/",
   "display": "standalone",
   "background_color": "#0b1120",
   "theme_color": "#1f2933",

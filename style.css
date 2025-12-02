@@ -194,3 +194,11 @@ button:hover {
   color: #9ca3af;
 }
 
+    .quiz-toolbar {
+      display: flex;
+      justify-content: flex-end;
+      margin: 0.3rem 0 0.4rem;
+      gap: 0.5rem;
+    }
+
+

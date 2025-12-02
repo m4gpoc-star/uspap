@@ -129,11 +129,20 @@
     <button class="link-button" onclick="window.location.href='index.html'">
       ← Back to Flashcards
     </button>
+    <button class="link-button" onclick="window.location.href='wrong.html'">
+      Go to Wrong Questions
+    </button>
   </header>
 
   <main class="quiz-main">
     <section class="quiz-card">
       <div id="quiz-progress" class="quiz-footer-bar"></div>
+
+      <div class="quiz-toolbar">
+        <button class="link-button" type="button" onclick="shuffleQuiz()">
+          Shuffle Questions
+        </button>
+      </div>
 
       <div class="quiz-question" id="quiz-question"></div>
 

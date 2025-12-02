@@ -1,3 +1,32 @@
+// ===== 错题本功能 =====
+const WRONG_KEY = 'uspapWrongQuestions';
+
+// 读取错题
+function getWrongQuestions() {
+  const raw = localStorage.getItem(WRONG_KEY);
+  if (!raw) return [];
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return [];
+  }
+}
+
+// 保存错题
+function saveWrongQuestions(list) {
+  localStorage.setItem(WRONG_KEY, JSON.stringify(list));
+}
+
+// 加入一条错题（避免重复）
+function addWrongQuestion(q) {
+  const list = getWrongQuestions();
+  const exists = list.some(item => item.question === q.question);
+  if (!exists) {
+    list.push(q);
+    saveWrongQuestions(list);
+  }
+}
+
 // ====== USPAP Chapter 1–3 Multiple-Choice Question Bank ======
 
 const quizQuestions = [
@@ -474,6 +503,9 @@ function handleAnswer(selectedIndex, buttonEl) {
   } else {
     feedbackEl.textContent = `Incorrect. ❌  Correct answer: "${q.options[correctIndex]}".`;
     feedbackEl.classList.add("incorrect");
+
+    // 记录错题
+    addWrongQuestion(q);
   }
 
   progressEl.textContent = `Question ${currentIndex + 1} of ${quizQuestions.length} · Score: ${score}`;
@@ -493,6 +525,20 @@ nextBtn.addEventListener("click", () => {
     nextBtn.disabled = true;
   }
 });
+
+function shuffleQuiz() {
+  // Fisher-Yates 洗牌算法，原地打乱 quizQuestions
+  for (let i = quizQuestions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [quizQuestions[i], quizQuestions[j]] = [quizQuestions[j], quizQuestions[i]];
+  }
+
+  // 重置进度和分数，从第一题重新开始
+  currentIndex = 0;
+  score = 0;
+  renderQuestion();
+}
+
 
 // 初始化
 renderQuestion();

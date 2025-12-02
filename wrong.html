@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Wrong Questions · Learn USPAP with Hydy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- PWA Support -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <meta name="theme-color" content="#1f2933" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    .wrong-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1.2rem;
+      gap: 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .wrong-card {
+      border-radius: 18px;
+      padding: 1rem 1.2rem;
+      border: 1px solid #1f2937;
+      background: linear-gradient(135deg, #111827, #1f2933);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+      margin-bottom: 0.8rem;
+    }
+
+    .wrong-question {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+    }
+
+    .wrong-option {
+      margin: 0.25rem 0;
+      font-size: 0.92rem;
+      text-align: left;
+      border-radius: 999px;
+      border: 1px solid #1f2937;
+      background: #111827;
+      padding: 0.45rem 0.8rem;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.05s, border-color 0.15s;
+      white-space: normal;
+    }
+
+    .wrong-option:hover {
+      transform: translateY(-1px);
+    }
+
+    .redo-feedback {
+      margin-top: 0.4rem;
+      font-size: 0.85rem;
+      min-height: 1.2em;
+      color: #9ca3af;
+    }
+
+    .redo-feedback.correct {
+      color: #6ee7b7;
+    }
+
+    .redo-feedback.incorrect {
+      color: #fecaca;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 0.6rem;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid #374151;
+      background: #111827;
+      color: #e5e7eb;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #1f2937;
+    }
+
+    .btn-danger {
+      background: #7f1d1d;
+      border-color: #f87171;
+    }
+
+    .btn-danger:hover {
+      background: #991b1b;
+    }
+
+    .empty {
+      text-align: center;
+      margin-top: 2rem;
+      color: #9ca3af;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="app-header">
+    <h1>Wrong Questions</h1>
+    <p class="subtitle">Redo mistakes · Learn USPAP with Hydy</p>
+
+    <button class="link-button" onclick="window.location.href='index.html'">
+      ← Back to Home
+    </button>
+  </header>
+
+  <main class="wrong-main">
+
+    <div class="toolbar">
+      <button class="btn" onclick="renderWrongList()">Refresh</button>
+      <button class="btn btn-danger" onclick="clearWrong()">Clear All</button>
+    </div>
+
+    <div id="wrongList"></div>
+
+  </main>
+
+  <footer class="app-footer">
+    <p>Redo each wrong question · Correct = removed from this list.</p>
+  </footer>
+
+  <script>
+    const WRONG_KEY = 'uspapWrongQuestions';
+
+    function getWrongList() {
+      const raw = localStorage.getItem(WRONG_KEY);
+      if (!raw) return [];
+      try {
+        return JSON.parse(raw);
+      } catch {
+        return [];
+      }
+    }
+
+    function saveWrongList(list) {
+      localStorage.setItem(WRONG_KEY, JSON.stringify(list));
+    }
+
+    function clearWrong() {
+      if (!confirm("Are you sure you want to clear all wrong questions?")) return;
+      localStorage.removeItem(WRONG_KEY);
+      renderWrongList();
+    }
+
+    function handleRedo(qIndex, selectedIndex, btnElem) {
+      const list = getWrongList();
+      const q = list[qIndex];
+      if (!q) return;
+
+      const correctIndex = q.answer;
+      const cardEl = btnElem.closest(".wrong-card");
+      const feedbackEl = cardEl.querySelector(".redo-feedback");
+
+      if (selectedIndex === correctIndex) {
+        // 做对：从错题本中移除
+        feedbackEl.textContent = "Correct ✅ Removed from wrong list.";
+        feedbackEl.className = "redo-feedback correct";
+        list.splice(qIndex, 1);
+        saveWrongList(list);
+
+        // 稍微停一下，让用户看到提示，再刷新列表
+        setTimeout(renderWrongList, 400);
+      } else {
+        // 做错：提示正确答案但不移除
+        feedbackEl.textContent =
+          "Incorrect ❌  Correct answer: " + q.options[correctIndex];
+        feedbackEl.className = "redo-feedback incorrect";
+      }
+    }
+
+    function renderWrongList() {
+      const list = getWrongList();
+      const container = document.getElementById("wrongList");
+      container.innerHTML = "";
+
+      if (list.length === 0) {
+        container.innerHTML = `
+          <p class="empty">
+            No wrong questions for now.<br>
+            Go to Quiz, any incorrect answer will be saved here.
+          </p>
+        `;
+        return;
+      }
+
+      list.forEach((item, idx) => {
+        const card = document.createElement("div");
+        card.className = "wrong-card";
+
+        const q = document.createElement("div");
+        q.className = "wrong-question";
+        q.textContent = (idx + 1) + ". " + item.question;
+        card.appendChild(q);
+
+        // 选项按钮（重新做题）
+        item.options.forEach((opt, i) => {
+          const btn = document.createElement("button");
+          btn.className = "wrong-option";
+          btn.textContent = String.fromCharCode(65 + i) + ". " + opt;
+          btn.onclick = () => handleRedo(idx, i, btn);
+          card.appendChild(btn);
+        });
+
+        const fb = document.createElement("div");
+        fb.className = "redo-feedback";
+        card.appendChild(fb);
+
+        container.appendChild(card);
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", renderWrongList);
+  </script>
+
+</body>
+</html>

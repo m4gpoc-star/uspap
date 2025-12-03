@@ -1,12 +1,14 @@
 {
-  "name": "USPAP Study Assistant",
-  "short_name": "USPAP Study",
-  "description": "基础版 USPAP 闪卡与测验学习助手。",
-  "start_url": "/uspap/index.html",
-  "scope": "/uspap/",
+  "id": "/?app=uspap-hydy",
+  "name": "跟 Hydy 学 USPAP",
+  "short_name": "USPAP Hydy",
+  "description": "Flashcards, quizzes, and wrong-question review to help you pass USPAP with Hydy.",
+  "start_url": "index.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#0b1120",
-  "theme_color": "#1f2933",
+  "orientation": "portrait",
+  "theme_color": "#020617",
+  "background_color": "#020617",
   "icons": [
     {
       "src": "icons/icon-192.png",

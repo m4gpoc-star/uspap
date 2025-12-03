@@ -1,4 +1,4 @@
-const CACHE_NAME = "uspap-pwa-v7";
+const CACHE_NAME = "uspap-pwa-v8";
 
 const ASSETS_TO_CACHE = [
   "/uspap/",
@@ -10,6 +10,7 @@ const ASSETS_TO_CACHE = [
   "/uspap/style.css",
   "/uspap/app.js",
   "/uspap/quiz.js",
+  "/uspap/settings.js",
   "/uspap/manifest.json",
   "/uspap/icons/icon-192.png",
   "/uspap/icons/icon-512.png"

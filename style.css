@@ -248,16 +248,16 @@ button:hover {
   border-color: #1f6f55;
 }
 
-/* Quiz - 深蓝色（主功能色） */
+/* Quiz - 深绿色（柔和） */
 .card-blue {
-  background: linear-gradient(135deg, #10203a, #1e3a8a);
-  border-color: #3b82f6;
+  background: linear-gradient(135deg, #0f2f24, #134e3a);
+  border-color: #1f6f55;
 }
 
-/* Wrong Questions - 柔粉色（提示但不刺眼） */
+/* Wrong Questions — USPAP 淡红 */
 .card-pink {
-  background: linear-gradient(135deg, #2a0f1f, #4f1d35);
-  border-color: #be185d;
+  background: linear-gradient(135deg, #5c1a24, #852536);
+  border-color: #e84a5f;
 }
 
 /* Settings - 淡灰色（工具、低存在感） */

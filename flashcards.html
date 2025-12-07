@@ -19,37 +19,60 @@
   <link rel="stylesheet" href="style.css" />
 
   <style>
-    .flash-main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding: 1.2rem;
-      gap: 1.2rem;
-      max-width: 700px;
-      margin: 0 auto;
-    }
+.flash-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1.2rem;
+  gap: 1.2rem;
 
-    .flash-top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.85rem;
-      color: #9ca3af;
-    }
+  /* ✅ 统一视觉宽度 */
+  width: 100%;        /* 新增这一行：先占满父级 */
+  max-width: 420px;   /* 再限制最大为 420px */
+  margin: 0 auto;
+}
 
-    .flash-card {
-      border-radius: 20px;
-      padding: 1.6rem 1.4rem;
-      border: 1px solid #1f2937;
-      background: radial-gradient(circle at top left, #111827, #020617);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
-      cursor: pointer;
-      position: relative;
-      min-height: 160px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
+
+/* 黑色卡片本体：始终占满 .flash-main */
+.flash-card {
+  width: 100%;              /* ✅ 固定为容器同宽 */
+  border-radius: 20px;
+  padding: 1.6rem 1.4rem;
+  border: 1px solid #1f2937;
+  background: radial-gradient(circle at top left, #111827, #020617);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  position: relative;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* 手机上稍微窄一点会更好看，可以加一段（可选） */
+@media (max-width: 480px) {
+  .flash-main {
+    max-width: 360px;
+  }
+}
+
+/* 让 Flashcards 页面所有主区域都与 flash-main 同宽 */
+.flash-top-bar,
+.flash-controls {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* 手机端更窄一点 */
+@media (max-width: 480px) {
+  .flash-top-bar,
+  .flash-controls {
+    max-width: 360px;
+  }
+}
+
+
 
     .flash-hint {
       position: absolute;

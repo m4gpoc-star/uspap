@@ -341,25 +341,24 @@ button:hover {
 
 /* 首页卡片的按钮 — 高级感样式 */
 .card-grid .home-card button {
-  align-self: flex-start;
-  padding: 0.35rem 1.1rem;
+  width: 110px;           /* ✅ 固定按钮宽度，整齐一致 */
+  text-align: center;     /* ✅ 文本居中 */
+  padding: 0.4rem 0;      /* 高度统一 */
   font-size: 0.85rem;
 
-  /* 半透明深色背景，适应任何彩色卡片 */
+  /* ✨ 只需要加这两行，让按钮在卡片里居中 */
+  margin-left: auto;
+  margin-right: auto;
+
   background: rgba(255, 255, 255, 0.12);
-
-  /* 细边、轻微亮度 */
   border: 1px solid rgba(255, 255, 255, 0.28);
-
   border-radius: 12px;
   color: #f1f5f9;
 
   cursor: pointer;
-  transition: 
-    background 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.15s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
 }
+
 
 /* 悬浮效果：轻微亮光 + 微浮起 */
 .card-grid .home-card button:hover {

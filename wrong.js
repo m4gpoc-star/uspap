@@ -60,7 +60,9 @@ function initQuizVoice() {
 
 function speakQuestion(text) {
   if (!text || typeof speechSynthesis === "undefined") return;
-  const preferred = localStorage.getItem(VOICE_KEY);
+
+  // ⭐ 没有设置的时候，默认视为 mute
+  const preferred = localStorage.getItem(VOICE_KEY) || "mute";
   if (preferred === "mute") return;
 
   const utterance = new SpeechSynthesisUtterance(text);
@@ -76,6 +78,7 @@ function speakQuestion(text) {
   speechSynthesis.cancel();
   speechSynthesis.speak(utterance);
 }
+
 
 // ===== DOM =====
 const questionEl = document.getElementById("quiz-question");

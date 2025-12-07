@@ -125,31 +125,31 @@ function addWrongQuestion(q) {
   }
 }
 
-// ====== USPAP Chapter 4–6 Rule Quiz Question Bank ======
+// ====== USPAP Chapter 5 Question Bank ======
 
 const quizQuestions = [
   {
-    question: "The credibility of assignment results is measured in the context of: 作业结果的可信度是根据以下情况来衡量的：",
+    question: "The credibility可信度 of assignment results is measured in the context of:",
     options: [
       "Lending guidelines 贷款指南",
       "The attainment of the clients stipulated result 达到客户约定的结果’",
-      "The amount of the value conclusion 价值结论的数量",
-      "The intended use 预期用途",
+      "The amount of the value conclusion",
+      "The intended use",
     ],
     answer: 3
   },
   {
-    question: "________ In order to determine the appropriate scope of work, the appraiser must ________ the problem to be solved. 为了确定适当的工作范围，评估师必须要解决的问题。",
+    question: "In order to determine确定 the appropriate scope of work, the appraiser must ___ the problem to be solved. ",
     options: [
-      "Solve 解决",
-      "Value 价值",
-      "Accept 接受",
-      "Identify 确认",
+      "Solve解决",
+      "Value",
+      "Accept",
+      "Identify 识别/确认",
     ],
     answer: 3
   },
   {
-    question: "_________  _________ Appraisers have broad _________ and significant _________ in determining the appropriate scope of work in an assignment. 评估师在确定一项任务的适当工作范围时具有广泛的和显著的能力。",
+    question: "Appraisers have broad ____ and significant ____ in determining the appropriate scope of work in an assignment.",
     options: [
       "Acceptance, liability 验收、责任",
       "Errors, omissions 错误、遗漏",
@@ -159,7 +159,7 @@ const quizQuestions = [
     answer: 3
   },
   {
-    question: "Examples of assignment conditions include: 分配条件的示例包括：",
+    question: "Examples of assignment conditions include:",
     options: [
       "Extraordinary assumptions 非凡的假设",
       "Hypothetical conditions 假设条件",
@@ -169,66 +169,66 @@ const quizQuestions = [
     answer: 2
   },
   {
-    question: "Intended use is: 预期用途是：",
+    question: "Intended use is:",
     options: [
-      "Not necessary to determine in an appraisal review assignment 无需在评估审查任务中确定",
-      "Determined by the client on the basis of communication with the appraiser 由客户根据与评估师的沟通情况确定",
-      "One of the last determinations to be made before submitting the report 提交报告前要做的最后决定之一",
-      "Identified by the appraiser on the basis of communication with the client 由评估师根据与客户的沟通确定",
+      "Not necessary to determine确定 in an appraisal review assignment",
+      "Determined by the client on the basis of communication with the appraiser",
+      "One of the last determinations to be made before submitting the report",
+      "Identified by the appraiser on the basis of communication with the client",
     ],
     answer: 3
   },
   {
-    question: "Identification of the intended use of an appraiser's opinions and conclusions is: 确定评估师意见和结论的预期用途是：",
+    question: "Identification of the intended use of an appraiser's opinions and conclusions is:",
     options: [
-      "Not necessary in most appraisal assignments 在大多数评估任务中没有必要",
-      "Necessary only when doing non-mortgage assignments 仅在进行非抵押任务时才需要",
-      "Necessary for determining the appropriate scope of work 确定适当的工作范围所必需的",
-      "Not required unless the client wants the intended use to be disclosed 除非客户希望披露预期用途，否则无需披露",
+      "Not necessary in most appraisal assignments",
+      "Necessary only when doing non-mortgage非抵押 assignments",
+      "Necessary for determining the appropriate scope of work",
+      "Not required unless the client wants the intended use to be disclosed",
     ],
     answer: 2
   },
   {
-    question: "The responsibility for determining an appropriate scope of work rests with the: 确定适当的工作范围的责任在于：",
+    question: "The responsibility for determining an appropriate scope of work rests with the:(rest with责任落在谁身上)",
     options: [
-      "Appraiser's peers 评估师的同行",
-      "Client 客户",
-      "Intended users 目标用户",
-      "Appraiser 估价师",
+      "Appraiser's peers同行",
+      "Client",
+      "Intended users",
+      "Appraiser",
     ],
     answer: 3
   },
   {
-    question: "___________ In an appraisal or appraisal review assignment, the scope of work is an ___________ process. 在评估或评估审查任务中，工作范围是一个过程。",
+    question: "In an appraisal or appraisal review assignment, the scope of work is an ______ process. ",
     options: [
-      "Unnecessary 不必要",
-      "Ongoing 正在进行",
+      "Unnecessary",
+      "Ongoing",
       "Inflexible 缺乏灵活性",
     ],
     answer: 1
   },
   {
-    question: "____________ An appraiser's report must contain ____________ to allow intended users to understand the scope of work performed. 评估师的报告必须包含以便目标用户了解所执行工作的范围。",
+    question: "An appraiser's report must contain _____ to allow intended users to understand the scope of work performed. 评估师的报告必须包含以便目标用户了解所执行工作的范围。",
     options: [
-      "No disclosure 未披露",
-      "A section titled \"scope of work\" 标题为“工作范围”的部分",
+      "No disclosure",
+      "A section titled \"scope of work\" ",
       "Sufficient information 足够的信息",
-      "A pre-printed statement 预先打印的声明",
+      "A pre-printed statement",
     ],
     answer: 2
   },
   {
-    question: "An appraiser must not allow client objectives to cause the assignment results to be _________. 评估师不得让客户的目标导致任务结果不尽如人意。",
+    question: "An appraiser must not allow client objectives to cause the assignment results to be ____. ",
     options: [
-      "Biased 有偏见",
-      "Reliable 可靠的",
-      "Basic 基本的",
-      "Credible 可信",
+      "Biased",
+      "Reliable",
+      "Basic",
+      "Credible",
     ],
     answer: 0
   },
   {
-    question: "The SCOPE OF WORK RULE provides appraisers with significant flexibility. Along with that flexibility comes: 工作范围规则为评估师提供了极大的灵活性。此外，这种灵活性还包括：",
+    question: "The SCOPE OF WORK RULE provides appraisers with significant flexibility. Along with that flexibility comes:",
     options: [
       "Release from liability 免除责任",
       "Deniability 否认",
@@ -238,47 +238,50 @@ const quizQuestions = [
     answer: 3
   },
   {
-    question: "If a clients objectives result in an appraiser developing biased assignment results: 如果客户的目标导致评估师得出有偏见的任务结果：’",
+    question: "If a clients objectives result in an appraiser developing biased assignment results:",
     options: [
-      "The appraiser is not responsible; after all, he was just following orders 估价师没有责任，毕竟他只是奉命行事",
-      "USPAP The client has violated USPAP 客户违反了",
-      "The appraiser is solely responsible 评估师全权负责",
-      "This is permissible as long as the appraiser discloses the bias 只要评估师披露偏见，这是允许的",
+      "The appraiser is not responsible; after all, he was just following orders.",
+      "USPAP The client has violated违反了 USPAP",
+      "The appraiser is solely单独 responsible(全权负责)",
+      "This is permissible as long as只要 the appraiser discloses the bias",
     ],
     answer: 2
   },
   {
-    question: "In reporting the scope of work in an appraisal or appraisal review report: 在评估或评估审查报告中报告工作范围时：",
+    question: "In reporting the scope of work in an appraisal or appraisal review report:",
     options: [
-      "All written reports must contain a specific section titled Scope of Work 所有书面报告必须包含一个标题为“工作范围”的特定部分“”",
-      "Use of pre-printed forms is prohibited 禁止使用预印表格",
-      "The report must contain sufficient information so that intended users understand the scope of work 报告必须包含足够的信息，以便目标用户了解工作范围",
-      "The scope of work must be described in narrative style 工作范围必须以叙述方式描述",
+      "All written reports must contain a specific section titled Scope of Work",
+      "Use of pre-printed forms is prohibited被禁止的",
+      "The report must contain sufficient足够的 information so that intended users understand the scope of work ",
+      "The scope of work must be described in narrative记叙文 style",
     ],
     answer: 2
   },
   {
-    question: "An appraiser is engaged to appraise a single-unit dwelling. Upon inspection of the property, the appraiser realizes it is a three-unit dwelling. The appraisers best course of action is: 一位估价师受聘对一套单户住宅进行估价。在对该房产进行勘察后，估价师发现这是一套三户住宅。估价师的最佳做法是：’",
+    question: "An appraiser is engaged to appraise a single-unit dwelling住宅. Upon inspection of the property, the appraiser realizes it is a three-unit dwelling. The appraisers best course of action is:",
     options: [
-      "Continue with the same scope of work that was initially planned 继续进行最初计划的工作范围",
-      "Withdraw from the assignment 退出任务",
-      "Use a hypothetical condition to appraise the property as a single-unit 使用假设条件对房产进行单体评估",
-      "Reconsider the scope of work before proceeding 在继续之前重新考虑工作范围",
+      "Continue with the same scope of work that was initially最初的 planned",
+      "Withdraw退出 from the assignment",
+      "Use a hypothetical假定的 condition to appraise the property as a single-unit",
+      "Reconsider the scope of work before proceeding继续流程",
     ],
     answer: 3
   },
   {
     question: "An appraiser's peers are defined as other appraisers who: 评估师的同行定义为：",
     options: [
-      "Have expertise and competency in a similar type of assignment 具备类似任务的专业知识和能力",
-      "Hold the same level of state licensure 持有相同级别的州执照",
-      "Have a similar level of education 具有相似的教育水平",
-      "Practice in the same market 在同一市场实践",
+      "Have expertise专业技能 and competency胜任能力 in a similar type of assignment",
+      "Hold the same level of state licensure",
+      "Have a similar level of education",
+      "Practice in the same market",
     ],
     answer: 0
   },
+
+// ====== USPAP Chapter 6 Question Bank ======
+
   {
-    question: "If an assignment involves a jurisdictional exception, what must an appraiser do? 如果任务涉及管辖例外情况，评估师必须做什么？",
+    question: "If an assignment involves a jurisdictional管辖权 exception例外, what must an appraiser do?",
     options: [
       "Include a copy of the applicable law or regulation as an addendum to the appraisal, appraisal review, or appraisal consulting report 将适用法律或法规的副本作为评估、评估审查或评估咨询报告的附录",
       "USPAPNothing; the law automatically supersedes USPAP and eliminates any need for disclosure 无需；法律自动取代，并消除任何披露的需要",

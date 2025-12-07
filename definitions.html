@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Wrong Questions · USPAP</title>
+  <title>USPAP Definitions</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#020617" />
 
+  <!-- Android: 作为 Web App 打开 -->
   <meta name="mobile-web-app-capable" content="yes" />
+
+  <!-- iOS: 全屏 Web App 模式 -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="USPAP Hydy" />
@@ -17,7 +19,13 @@
   <link rel="stylesheet" href="style.css" />
 
   <style>
-    /* 跟 Definitions / Rule / Standard 一致的 Quiz 风格 */
+    /* Quiz 专用小样式，放这里就行，不会影响大局 */
+
+.quiz-timer {
+  font-size: 1.15rem;/* 调整为更大的字号，使其在顶部更显眼 */
+  font-weight:Bold;/*加粗*/
+  color: #fbbf24; /* 金黄色，显眼一点 */
+}
 
     .quiz-main {
       flex: 1;
@@ -97,8 +105,6 @@
       margin-top: 0.6rem;
       font-size: 0.8rem;
       color: #9ca3af;
-      gap: 0.6rem;
-      flex-wrap: wrap;
     }
 
     .quiz-controls {
@@ -125,31 +131,33 @@
     .link-button:hover {
       background: #111827;
     }
+
   </style>
 </head>
 <body>
   <header class="app-header">
-    <h1>Wrong Questions</h1>
-    <p class="subtitle">Redo mistakes · Definitions · Rule · Standard</p>
-
+    <h1>Definitions · Quiz</h1>
+    <p class="subtitle">Chapters 1–3 · USPAP key terms</p>
     <button class="nav-btn" onclick="window.location.href='index.html'">
-      ← Back to Home
-    </button>
+  ← Back to Home
+</button>
+<button class="nav-btn" onclick="window.location.href='wrong.html'">
+  Go to Wrong Questions
+</button>
+
   </header>
 
   <main class="quiz-main">
-    <section class="quiz-card">
-      <div class="quiz-footer-bar">
-        <div id="quiz-progress"></div>
-        <div>
-          <button id="refresh-btn" class="link-button" type="button">
-            Refresh
-          </button>
-          <button id="clear-btn" class="link-button" type="button">
-            Clear All
-          </button>
-        </div>
-      </div>
+    <div id="quiz-timer" class="quiz-timer quiz-top-timer">Time left: 16s</div>
+
+  <section class="quiz-card">
+    <div class="quiz-header-bar quiz-footer-bar">
+      <div id="quiz-progress"></div>
+      <button class="link-button" type="button" onclick="shuffleQuiz()">
+        Shuffle Questions
+      </button>
+    </div>
+
 
       <div class="quiz-question" id="quiz-question"></div>
 
@@ -158,18 +166,16 @@
       <div id="quiz-feedback" class="quiz-feedback"></div>
 
       <div class="quiz-controls">
-        <button id="quiz-next-btn" class="quiz-next-btn" disabled>
-          Next Question ▶
-        </button>
+        <button id="quiz-next-btn" class="quiz-next-btn" disabled>Next Question ▶</button>
       </div>
     </section>
   </main>
 
   <footer class="app-footer">
-    <p>Review your mistakes across all quizzes.</p>
+    <p>Practice questions based on your study notes. For learning use only.</p>
   </footer>
 
-  <!-- 这里加载刚才单独保存的 wrong.js -->
-  <script src="wrong.js"></script>
+  <script src="definitions.js"></script>
+
 </body>
 </html>

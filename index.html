@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>跟 Hydy 学 USPAP</title>
+  <title>USPAP@Hydy</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
   <!-- PWA manifest -->
@@ -31,40 +31,49 @@
     <p class="subtitle">Choose a study mode</p>
   </header>
 
-  <main class="home-main">
-  <section class="home-grid">
+<div class="card-grid">
 
-    <!-- Flashcards -->
-    <a class="home-card card-green" href="flashcards.html">
-      <h2><span class="home-card-icon">📚</span>Flashcards</h2>
-      <p>Swipe through key USPAP terms and concepts.</p>
-      <span class="home-tag">Study mode</span>
-    </a>
+  <!-- Flashcards：改成 blue -->
+<div class="home-card blue" onclick="location.href='flashcards.html'">
+  <h2>📚 Flashcards</h2>
+  <p>Swipe through key USPAP terms and concepts.</p>
+  <button>Study mode</button>
+</div>
 
-    <!-- Quiz -->
-    <a class="home-card card-blue" href="quiz.html">
-      <h2><span class="home-card-icon">📝</span>Quiz · 4 Choices</h2>
-      <p>Practice multiple-choice questions for Chapters 1–3.</p>
-      <span class="home-tag">Test mode</span>
-    </a>
+<!-- Definitions：保持 green -->
+<div class="home-card green" onclick="location.href='definitions.html'">
+  <h2>📖 Definitions</h2>
+  <p>Definitions quizzes 1-3.</p>
+  <button>Test mode</button>
+</div>
 
-    <!-- Settings -->
-    <a class="home-card card-gray" href="settings.html">
-      <h2><span class="home-card-icon">⚙️</span>Settings</h2>
-      <p>Choose your quiz reading voice and credits.</p>
-      <span class="home-tag">Voice & About</span>
-    </a>
+<!-- Rule：从 blue 改成 green -->
+<div class="home-card green" onclick="location.href='rule.html'">
+  <h2>📘 Rule</h2>
+  <p>Rules quizzes 4-6.</p>
+  <button>Enter</button>
+</div>
 
-    <!-- Wrong Questions -->
-    <a class="home-card card-pink" href="wrong.html">
-      <h2><span class="home-card-icon">🎯</span>Wrong Questions</h2>
-      <p>Redo incorrect answers and clear your weak points.</p>
-      <span class="home-tag">Focus mistakes</span>
-    </a>
+<!-- Standard：从 blue 改成 green -->
+<div class="home-card green" onclick="location.href='standard.html'">
+  <h2>📙 Standard</h2>
+  <p>Standards quizzes 7-12.</p>
+  <button>Enter</button>
+</div>
 
-  </section>
-</main>
+<!-- Settings：保持 dark -->
+<div class="home-card dark" onclick="location.href='settings.html'">
+  <h2>⚙️ Settings</h2>
+  <p>Choose your quiz reading voice and credits.</p>
+  <button>Voice & About</button>
+</div>
 
+<!-- Wrong Questions：保持 red -->
+<div class="home-card red" onclick="location.href='wrong.html'">
+  <h2>🎯 Wrong Questions</h2>
+  <p>Redo incorrect answers and clear your weak points.</p>
+  <button>Focus mistakes</button>
+</div>
 
   <footer class="app-footer">
     <p>USPAP self-study helper · For personal learning only.</p>

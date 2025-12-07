@@ -144,6 +144,25 @@ button:hover {
 
 /* ===== Home page layout ===== */
 
+/* index.html 使用的卡片网格 */
+/* 默认：手机优先，自动 1～2 列（大部分手机是 2 列） */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.2rem;
+  padding: 1.5rem;
+  max-width: 960px;
+  margin: 0 auto 2rem;
+}
+
+/* 电脑端：固定 3 列 → 6 个卡片就是 3×2 */
+@media (min-width: 900px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+
 .home-main {
   flex: 1;
   display: flex;
@@ -168,7 +187,6 @@ button:hover {
 }
 
 .home-card {
-  flex: 1;
   border-radius: 18px;
   padding: 1.2rem 1.4rem;
   border: 1px solid #1f2937;
@@ -182,6 +200,7 @@ button:hover {
   gap: 0.6rem;
   transition: transform 0.08s ease-out, box-shadow 0.1s ease-out, border-color 0.1s;
 }
+
 
 .home-card h2 {
   font-size: 1.25rem;
@@ -239,31 +258,87 @@ button:hover {
 }
 
 /* ==========================
-   Home Card Color Themes
+   Home Card Color Themes（最终版）
    ========================== */
 
-/* Flashcards - 深绿色（柔和） */
-.card-green {
-  background: linear-gradient(135deg, #0f2f24, #134e3a);
-  border-color: #1f6f55;
+/* Flashcards —— 蓝色整块 */
+.home-card.blue {
+  background: linear-gradient(135deg, #1e3a8a, #1d4ed8);
+  border-color: #3b82f6;
+  color: #f8fafc;
 }
 
-/* Quiz - 深绿色（柔和） */
-.card-blue {
+/* Definitions / Rule / Standard —— 统一深绿色整块 */
+.home-card.green {
   background: linear-gradient(135deg, #0f2f24, #134e3a);
   border-color: #1f6f55;
+  color: #f0fdf4;
 }
 
-/* Wrong Questions — USPAP 淡红 */
-.card-pink {
+/* Wrong Questions —— 红色整块 */
+.home-card.red {
   background: linear-gradient(135deg, #5c1a24, #852536);
   border-color: #e84a5f;
+  color: #fff1f2;
 }
 
-/* Settings - 淡灰色（工具、低存在感） */
-.card-gray {
+/* Settings —— 深灰整块 */
+.home-card.dark {
   background: linear-gradient(135deg, #1a1a1e, #2b2b31);
   border-color: #4b5563;
+  color: #e5e7eb;
+}
+
+/* 首页卡片的按钮 — 高级感样式 */
+.card-grid .home-card button {
+  align-self: flex-start;
+  padding: 0.35rem 1.1rem;
+  font-size: 0.85rem;
+
+  /* 半透明深色背景，适应任何彩色卡片 */
+  background: rgba(255, 255, 255, 0.12);
+
+  /* 细边、轻微亮度 */
+  border: 1px solid rgba(255, 255, 255, 0.28);
+
+  border-radius: 12px;
+  color: #f1f5f9;
+
+  cursor: pointer;
+  transition: 
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+/* 悬浮效果：轻微亮光 + 微浮起 */
+.card-grid .home-card button:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+  background: rgba(15, 23, 42, 0.85);      /* 深色半透明 */
+  color: #e5e7eb;
+  border: 1px solid rgba(148, 163, 184, 0.8);
+}
+
+
+/* Rule / Definitions 选项按钮的正确 / 错误状态 */
+.quiz-option-btn.correct {
+  background: #14532d;              /* 深绿色 */
+  border-color: #22c55e;
+  color: #ecfdf5;
+}
+
+.quiz-option-btn.incorrect {
+  background: #7f1d1d;              /* 深红色 */
+  border-color: #f97373;
+  color: #fee2e2;
+}
+
+.quiz-option-btn:disabled {
+  opacity: 0.96;
 }
 
 

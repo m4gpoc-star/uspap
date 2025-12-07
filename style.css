@@ -280,8 +280,12 @@ button:hover {
 /* Flashcards —— 更深、更灰一点的专业琥珀色 */
 .home-card.blue {
   background: linear-gradient(135deg, #C48A2A, #A9741F);
-  border-color: #8C6018;
-  color: #ffffff;   /* 标题白色 */
+
+  /* 边框更粗 + 更亮 */
+  border: 3px solid rgba(255, 255, 255, 0.45);
+
+  border-radius: 18px;
+  color: #ffffff;
 }
 
 .home-card.blue h2 {
@@ -299,26 +303,41 @@ button:hover {
   color: #ffffff;
 }
 
-/* Definitions / Rule / Standard —— 蓝色渐变，与背景蓝色同色系 */
+/* Definitions / Rule / Standard —— 使用自定义蓝色 #02B4D8 */
 .home-card.green {
-  background: linear-gradient(135deg, #1F6FEB, #1557B0);
-  border-color: #0D2D6C;
-  color: #f0faff;  /* 略淡的白蓝，更柔和 */
+  background: linear-gradient(135deg, #02B4D8, #0284A3);
+
+  /* 边框更粗 + 更亮 */
+  border: 3px solid rgba(255, 255, 255, 0.45);
+
+  border-radius: 18px;
+  color: #f0faff;
 }
+
 
 /* Wrong Questions —— 红色整块 */
 .home-card.red {
   background: linear-gradient(135deg, #5c1a24, #852536);
-  border-color: #e84a5f;
+
+  /* 边框更粗 + 更亮（与其它卡片统一） */
+  border: 3px solid rgba(255, 255, 255, 0.45);
+
+  border-radius: 18px;
   color: #fff1f2;
 }
+
 
 /* Settings —— 深灰整块 */
 .home-card.dark {
   background: linear-gradient(135deg, #1a1a1e, #2b2b31);
-  border-color: #4b5563;
+
+  /* 边框更粗 + 更亮（与其它卡片统一） */
+  border: 3px solid rgba(255, 255, 255, 0.45);
+
+  border-radius: 18px;
   color: #e5e7eb;
 }
+
 
 /* 首页卡片的按钮 — 高级感样式 */
 .card-grid .home-card button {
@@ -397,7 +416,7 @@ body::before {
   width: 100%;
   height: 100%;
   background: url('images/uspap-bg.png') center/cover no-repeat;
-  filter: blur(18px) brightness(0.65);
+  filter: blur(4px) brightness(0.5);
   z-index: -1;   /* 关键：不会挡住卡片 */
 }
 

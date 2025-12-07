@@ -341,5 +341,10 @@ button:hover {
   opacity: 0.96;
 }
 
-
+/* 强制手机端显示两列 */
+@media (max-width: 480px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
 

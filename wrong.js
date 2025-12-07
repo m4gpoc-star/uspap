@@ -14,7 +14,15 @@ function initQuizVoice() {
     const voices = speechSynthesis.getVoices();
     if (!voices || !voices.length) return;
 
-    const preferred = localStorage.getItem(VOICE_KEY);
+    // ⭐ 默认：第一次进入 = 静音
+    const preferred = localStorage.getItem(VOICE_KEY) || "mute";
+
+    // 如果是静音，就不要选任何 voice
+    if (preferred === "mute") {
+      quizVoice = null;
+      return;
+    }
+
     let chosen = null;
 
     if (preferred === "google_us") {
@@ -31,6 +39,7 @@ function initQuizVoice() {
         voices.find(v => v.lang === "en-US" && v.name.toLowerCase().includes("samantha"));
     }
 
+    // 兜底：中文女声 > 中文 > 女声 > 第一个
     if (!chosen) {
       chosen =
         voices.find(v => v.lang.startsWith("zh") && /Female|女/i.test(v.name)) ||
@@ -47,6 +56,7 @@ function initQuizVoice() {
     speechSynthesis.onvoiceschanged = chooseVoice;
   }
 }
+
 
 function speakQuestion(text) {
   if (!text || typeof speechSynthesis === "undefined") return;

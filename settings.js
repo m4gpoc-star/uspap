@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ====== 语音设置 ======
   const voiceSelect = document.getElementById("voice-select");
   if (voiceSelect) {
-    const savedVoice = localStorage.getItem(VOICE_KEY) || "auto";
+    const savedVoice = localStorage.getItem(VOICE_KEY) || "mute";
     voiceSelect.value = savedVoice;
 
     voiceSelect.addEventListener("change", () => {

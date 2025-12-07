@@ -22,7 +22,15 @@ function initQuizVoice() {
     const voices = speechSynthesis.getVoices();
     if (!voices || !voices.length) return;
 
-    const preferred = localStorage.getItem(VOICE_KEY);
+    // ⭐ 默认：第一次没有设置时，当作 mute（静音）
+    const preferred = localStorage.getItem(VOICE_KEY) || "mute";
+
+    // 如果是静音，就不选任何 voice
+    if (preferred === "mute") {
+      quizVoice = null;
+      return;
+    }
+
     let chosen = null;
 
     if (preferred === "google_us") {
@@ -39,6 +47,7 @@ function initQuizVoice() {
         voices.find(v => v.lang === "en-US" && v.name.toLowerCase().includes("samantha"));
     }
 
+    // 兜底：中文女声 > 中文 > 女声 > 第一个
     if (!chosen) {
       chosen =
         voices.find(v => v.lang.startsWith("zh") && /Female|女/i.test(v.name)) ||
@@ -59,7 +68,9 @@ function initQuizVoice() {
 
 function speakQuestion(text) {
   if (!text || typeof speechSynthesis === "undefined") return;
-  const preferred = localStorage.getItem(VOICE_KEY);
+
+  // ⭐ 默认或手动设置为静音就不读
+  const preferred = localStorage.getItem(VOICE_KEY) || "mute";
   if (preferred === "mute") return;
 
   const utterance = new SpeechSynthesisUtterance(text);
@@ -77,6 +88,7 @@ function speakQuestion(text) {
   speechSynthesis.cancel();
   speechSynthesis.speak(utterance);
 }
+
 
 // ===== 错题本（与 Definitions / Rule 共用） =====
 const WRONG_KEY = "uspapWrongQuestions";

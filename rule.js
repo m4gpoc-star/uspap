@@ -26,7 +26,14 @@ function initQuizVoice() {
     const voices = speechSynthesis.getVoices();
     if (!voices || !voices.length) return;
 
-    const preferred = localStorage.getItem(VOICE_KEY);
+    // ⭐ 默认：第一次 = mute
+    const preferred = localStorage.getItem(VOICE_KEY) || "mute";
+
+    if (preferred === "mute") {
+      quizVoice = null;
+      return;
+    }
+
     let chosen = null;
 
     if (preferred === "google_us") {
@@ -65,7 +72,8 @@ function initQuizVoice() {
 function speakQuestion(text) {
   if (!text || typeof speechSynthesis === "undefined") return;
 
-  const preferred = localStorage.getItem(VOICE_KEY);
+  // ⭐ 默认/未设置 = mute，就不读
+  const preferred = localStorage.getItem(VOICE_KEY) || "mute";
   if (preferred === "mute") {
     return;
   }
@@ -85,6 +93,7 @@ function speakQuestion(text) {
   speechSynthesis.cancel();
   speechSynthesis.speak(utterance);
 }
+
 
 // ===== 错题本功能（与 Definitions 共用同一个 Wrong 页面） =====
 const WRONG_KEY = "uspapWrongQuestions";

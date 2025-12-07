@@ -27,7 +27,15 @@ function initQuizVoice() {
     const voices = speechSynthesis.getVoices();
     if (!voices || !voices.length) return;
 
-    const preferred = localStorage.getItem(VOICE_KEY);
+    // 默认：第一次 = 静音
+    const preferred = localStorage.getItem(VOICE_KEY) || "mute";
+
+    // 如果是静音，就不要选任何 voice，直接退出
+    if (preferred === "mute") {
+      quizVoice = null;
+      return;
+    }
+
     let chosen = null;
 
     // 1️⃣ 先根据 Setting 里的偏好来选
@@ -65,15 +73,14 @@ function initQuizVoice() {
 }
 
 
+
 // 朗读题干：女声（如果有）、中速
 function speakQuestion(text) {
   if (!text || typeof speechSynthesis === "undefined") return;
 
   // 如果在 Setting 里选了静音，直接不读
-  const preferred = localStorage.getItem(VOICE_KEY);
-  if (preferred === "mute") {
-    return;
-  }
+const preferred = localStorage.getItem(VOICE_KEY) || "mute";
+if (preferred === "mute") return;
 
   const utterance = new SpeechSynthesisUtterance(text);
 

@@ -350,23 +350,18 @@ button:hover {
 }
 
 
-/* 首页卡片的按钮 — 高级感样式 */
+/* 首页卡片的普通按钮（Study mode / Test mode 等） */
 .card-grid .home-card button:not(.audio-btn) {
-
-  width: 110px;           /* ✅ 固定按钮宽度，整齐一致 */
-  text-align: center;     /* ✅ 文本居中 */
-  padding: 0.4rem 0;      /* 高度统一 */
+  width: 110px;           /* 只固定普通按钮宽度 */
+  text-align: center;
+  padding: 0.4rem 0;
   font-size: 0.85rem;
-
-  /* ✨ 只需要加这两行，让按钮在卡片里居中 */
   margin-left: auto;
   margin-right: auto;
 
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 12px;
-  color: #f1f5f9;
-
   cursor: pointer;
   transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
 }
@@ -442,12 +437,13 @@ body::before {
   width: 100%;
 }
 
-/* 音频按钮：尺寸随父容器（也就是卡片宽度）变化 */
+/* 音频按钮：尺寸随父容器（卡片宽度）变化 */
 .audio-btn {
-  flex: 0 1 18%;        /* 每个按钮占整行大约 18% 宽度，3 个按钮 + 间隔刚好一行 */
-  aspect-ratio: 1 / 1;  /* 固定为正方形，宽度变化，高度跟着变 */
-  min-width: 28px;      /* 不要太小 */
-  max-width: 52px;      /* 不要太大——避免在宽屏上撑爆卡片 */
+  flex: 0 1 18%;        /* 3 个按钮 + 间隔，刚好一行 */
+  aspect-ratio: 1 / 1;  /* 保持正方形 */
+  width: auto;          /* 关键：不要固定 110px */
+  min-width: 28px;
+  max-width: 52px;
 
   display: flex;
   justify-content: center;
@@ -456,7 +452,7 @@ body::before {
   font-size: 0.8rem;
   line-height: 1;
 
-  border-radius: 999px;  /* 圆形 */
+  border-radius: 999px;
   border: 1px solid rgba(255,255,255,0.35);
   background: rgba(255,255,255,0.16);
   color: #ffffff;
@@ -464,6 +460,7 @@ body::before {
   cursor: pointer;
   transition: background 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
 }
+
 
 .audio-btn:hover {
   background: rgba(255,255,255,0.28);

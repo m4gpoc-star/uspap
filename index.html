@@ -40,6 +40,19 @@
   <button>Study mode</button>
 </div>
 
+<div class="home-card blue">
+  <h2>🎧 Read Definition </h2>
+  <p>Kimberly read for you review.</p>
+
+  <div class="audio-controls">
+    <button onclick="audioPlay()" class="audio-btn">▶</button>
+    <button onclick="audioPause()" class="audio-btn">⏸</button>
+    <button onclick="audioStop()" class="audio-btn">⏹</button>
+  </div>
+</div>
+
+
+
 <!-- Definitions：保持 green -->
 <div class="home-card green" onclick="location.href='definitions.html'">
   <h2>📖 Definitions</h2>
@@ -80,14 +93,60 @@
   </footer>
 
   <script>
-    // 注册 Service Worker，保证首页也能离线
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("sw.js")
-      .catch(err => console.error("SW registration failed:", err));
-  });
+// Audio player for read1.mp3
+let read1Audio = null;
+let read1LastPosition = 0;
+
+function ensureAudio() {
+  if (!read1Audio) {
+    read1Audio = new Audio("read1.mp3");
+    read1Audio.preload = "auto";
+
+    // 播放结束后，位置归零
+    read1Audio.addEventListener("ended", () => {
+      read1LastPosition = 0;
+    });
+  }
 }
+
+function audioPlay() {
+  try {
+    ensureAudio();
+
+    // 从上次暂停的位置继续播
+    if (read1LastPosition > 0) {
+      read1Audio.currentTime = read1LastPosition;
+    }
+
+    read1Audio.play().catch(e => console.error(e));
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+function audioPause() {
+  try {
+    if (!read1Audio) return;
+    // 先记录当前位置，再暂停
+    read1LastPosition = read1Audio.currentTime;
+    read1Audio.pause();
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+function audioStop() {
+  try {
+    if (!read1Audio) return;
+    read1Audio.pause();
+    read1Audio.currentTime = 0;
+    read1LastPosition = 0;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
   </script>
+
 </body>
 </html>

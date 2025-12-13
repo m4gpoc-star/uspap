@@ -352,6 +352,7 @@ button:hover {
 
 /* 首页卡片的按钮 — 高级感样式 */
 .card-grid .home-card button:not(.audio-btn) {
+
   width: 110px;           /* ✅ 固定按钮宽度，整齐一致 */
   text-align: center;     /* ✅ 文本居中 */
   padding: 0.4rem 0;      /* 高度统一 */
@@ -431,34 +432,44 @@ body::before {
 }
 
 
-/* 播放器按钮区：紧凑居中 */
+/* 播放器按钮区：随卡片宽度自适应，按钮之间有间隔 */
 .audio-controls {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 16px;
-  margin-top: 6px;
+  gap: 0.6rem;          /* 按钮之间的距离 */
+  margin-top: 0.75rem;
+  width: 100%;
 }
 
+/* 音频按钮：尺寸随父容器（也就是卡片宽度）变化 */
 .audio-btn {
-  width: 48px;      /* 稍大但仍然小巧 */
-  height: 48px;
-  padding: 0;
+  flex: 0 1 18%;        /* 每个按钮占整行大约 18% 宽度，3 个按钮 + 间隔刚好一行 */
+  aspect-ratio: 1 / 1;  /* 固定为正方形，宽度变化，高度跟着变 */
+  min-width: 28px;      /* 不要太小 */
+  max-width: 52px;      /* 不要太大——避免在宽屏上撑爆卡片 */
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  font-size: 24px;   /* 图标更容易看 */
+  font-size: 0.8rem;
   line-height: 1;
 
-  border-radius: 50%;
+  border-radius: 999px;  /* 圆形 */
   border: 1px solid rgba(255,255,255,0.35);
-  background: rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.16);
   color: #ffffff;
+
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
 }
+
+.audio-btn:hover {
+  background: rgba(255,255,255,0.28);
+  border-color: rgba(255,255,255,0.55);
+}
+
 
 .audio-btn:hover {
   background: rgba(255,255,255,0.30);

@@ -215,7 +215,10 @@ button:hover {
   justify-content: space-between;
   gap: 0.6rem;
   transition: transform 0.08s ease-out, box-shadow 0.1s ease-out, border-color 0.1s;
+
+  min-height: 210px;    /* ★ 加这一行，全体卡片变整齐 */
 }
+
 
 
 .home-card h2 {

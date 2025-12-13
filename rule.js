@@ -634,10 +634,48 @@ function startTimer() {
   }, 1000);
 }
 
-// 超时：算错题，正确答案变绿
+// 超时：算错题，正确答案变绿（不显示文字答案）
 function handleTimeout() {
   if (hasAnsweredCurrent) return;
   hasAnsweredCurrent = true;
+
+  const q = quizQuestions[currentIndex];
+  const correctIndex = q.answer;
+
+  const optionButtons = optionsEl.querySelectorAll(".quiz-option");
+  optionButtons.forEach((btn) => {
+    btn.disabled = true;
+
+    const optIndex = Number(btn.dataset.optionIndex);
+    if (optIndex === correctIndex) {
+      btn.classList.add("correct");
+    }
+  });
+
+  // 不显示“Time's up + 正确答案”文字，只保留错误样式
+  feedbackEl.textContent = "";
+  feedbackEl.className = "quiz-feedback incorrect";
+
+  addWrongQuestion(q);
+
+  progressEl.textContent =
+    `Question ${currentIndex + 1} of ${quizQuestions.length} · Score: ${score}`;
+  nextBtn.disabled = false;
+
+  setTimeout(() => {
+    goToNextQuestion();
+  }, 800);
+}
+
+// 点击作答
+function handleAnswer(selectedIndex, buttonEl) {
+  if (hasAnsweredCurrent) return;
+  hasAnsweredCurrent = true;
+
+  if (timerId) {
+    clearInterval(timerId);
+    timerId = null;
+  }
 
   const q = quizQuestions[currentIndex];
   const correctIndex = q.answer;
@@ -651,21 +689,31 @@ function handleTimeout() {
     if (optIndex === correctIndex) {
       btn.classList.add("correct");
     }
+    if (optIndex === selectedIndex && optIndex !== correctIndex) {
+      btn.classList.add("incorrect");
+    }
   });
 
-  feedbackEl.textContent = `Time's up! ⏰ Correct answer: "${q.options[correctIndex]}".`;
-  feedbackEl.className = "quiz-feedback incorrect";
+  if (selectedIndex === correctIndex) {
+    score++;
+    // 正确时也不显示“Correct”文字，只用颜色提示
+    feedbackEl.textContent = "";
+    feedbackEl.classList.add("correct");
+  } else {
+    // 答错：不显示正确答案文字，只用红色 / 绿色提示
+    feedbackEl.textContent = "";
+    feedbackEl.classList.add("incorrect");
 
-  addWrongQuestion(q);
+    addWrongQuestion(q);
+  }
 
   progressEl.textContent =
     `Question ${currentIndex + 1} of ${quizQuestions.length} · Score: ${score}`;
   nextBtn.disabled = false;
 
-  setTimeout(() => {
-    goToNextQuestion();
-  }, 800);
+  saveQuizState();
 }
+
 
 // 渲染一题
 function renderQuestion() {
@@ -711,7 +759,6 @@ function renderQuestion() {
   saveQuizState();
 }
 
-// 点击作答
 function handleAnswer(selectedIndex, buttonEl) {
   if (hasAnsweredCurrent) return;
   hasAnsweredCurrent = true;
@@ -740,12 +787,13 @@ function handleAnswer(selectedIndex, buttonEl) {
 
   if (selectedIndex === correctIndex) {
     score++;
-    feedbackEl.textContent = "Correct! ✅  Keep going.";
-    feedbackEl.classList.add("correct");
+    // 不显示任何 Correct 文本
+    feedbackEl.textContent = "";
+    feedbackEl.className = "quiz-feedback correct";
   } else {
-    feedbackEl.textContent =
-      `Incorrect. ❌  Correct answer: "${q.options[correctIndex]}".`;
-    feedbackEl.classList.add("incorrect");
+    // 不显示正确答案
+    feedbackEl.textContent = "";
+    feedbackEl.className = "quiz-feedback incorrect";
 
     addWrongQuestion(q);
   }
@@ -756,6 +804,7 @@ function handleAnswer(selectedIndex, buttonEl) {
 
   saveQuizState();
 }
+
 
 // 下一题
 function goToNextQuestion() {

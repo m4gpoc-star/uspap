@@ -1008,7 +1008,8 @@ function handleTimeout() {
     }
   });
 
-  feedbackEl.textContent = `Time's up! ⏰ Correct answer: "${q.options[correctIndex]}".`;
+  // 不显示“Time's up / 正确答案”文字，只用颜色提示
+  feedbackEl.textContent = "";
   feedbackEl.className = "quiz-feedback incorrect";
 
   addWrongQuestion(q);
@@ -1021,6 +1022,7 @@ function handleTimeout() {
     goToNextQuestion();
   }, 800);
 }
+
 
 function renderQuestion() {
   const q = quizQuestions[currentIndex];
@@ -1089,12 +1091,13 @@ function handleAnswer(selectedIndex) {
 
   if (selectedIndex === correctIndex) {
     score++;
-    feedbackEl.textContent = "Correct! ✅  Keep going.";
-    feedbackEl.classList.add("correct");
+    // 正确：只用绿色按钮提示
+    feedbackEl.textContent = "";
+    feedbackEl.className = "quiz-feedback correct";
   } else {
-    feedbackEl.textContent =
-      `Incorrect. ❌  Correct answer: "${q.options[correctIndex]}".`;
-    feedbackEl.classList.add("incorrect");
+    // 错误：只用红色 / 绿色按钮提示，不写出正确答案
+    feedbackEl.textContent = "";
+    feedbackEl.className = "quiz-feedback incorrect";
     addWrongQuestion(q);
   }
 
@@ -1104,6 +1107,7 @@ function handleAnswer(selectedIndex) {
 
   saveQuizState();
 }
+
 
 function goToNextQuestion() {
   if (timerId) {

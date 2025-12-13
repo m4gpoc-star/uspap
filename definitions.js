@@ -611,9 +611,9 @@ function handleTimeout() {
     }
   });
 
-  feedbackEl.textContent =
-    `Time's up! ⏰ Correct answer: "${q.options[correctIndex]}".`;
-  feedbackEl.className = "quiz-feedback incorrect";
+feedbackEl.textContent = "";   // 超时不显示正确答案
+feedbackEl.className = "quiz-feedback incorrect";
+
 
   // 超时也记入错题本
   addWrongQuestion(q);
@@ -698,18 +698,23 @@ function handleAnswer(selectedIndex) {
     }
   });
 
-  if (selectedIndex === correctIndex) {
+if (selectedIndex === correctIndex) {
     score++;
-    feedbackEl.textContent = "Correct! ✅  Keep going.";
+
+    // 不显示“Correct”文字
+    feedbackEl.textContent = "";
     feedbackEl.classList.add("correct");
-  } else {
-    feedbackEl.textContent =
-      `Incorrect. ❌  Correct answer: "${q.options[correctIndex]}".`;
+} else {
+    // 不显示“Incorrect”或正确答案文字
+    feedbackEl.textContent = "";
     feedbackEl.classList.add("incorrect");
 
-    // 答错：加入错题本（用上面已经定义好的 addWrongQuestion）
+    // 加入错题本
     addWrongQuestion(q);
-  }
+}
+
+
+
 
   progressEl.textContent =
     `Question ${currentIndex + 1} of ${quizQuestions.length} · Score: ${score}`;

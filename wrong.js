@@ -182,7 +182,6 @@ function renderQuestion() {
   nextBtn.disabled = true;
 }
 
-// 作答
 function handleAnswer(selectedIndex) {
   if (hasAnsweredCurrent) return;
   hasAnsweredCurrent = true;
@@ -204,12 +203,13 @@ function handleAnswer(selectedIndex) {
 
   if (selectedIndex === correctIndex) {
     score++;
-    feedbackEl.textContent = "Correct! ✅  Keep going.";
-    feedbackEl.classList.add("correct");
+    // 正确：不显示文字
+    feedbackEl.textContent = "";
+    feedbackEl.className = "quiz-feedback correct";
   } else {
-    feedbackEl.textContent =
-      `Incorrect. ❌  Correct answer: "${q.options[correctIndex]}".`;
-    feedbackEl.classList.add("incorrect");
+    // 错误：不显示正确答案文字
+    feedbackEl.textContent = "";
+    feedbackEl.className = "quiz-feedback incorrect";
   }
 
   progressEl.textContent =

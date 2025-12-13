@@ -25,7 +25,7 @@ body {
 
 .subtitle {
   font-size: 0.9rem;
-  color: #9ca3af;
+  color:  #ffffff;   /* ★ 改为白色 */
   margin-top: 0.3rem;
 }
 
@@ -225,6 +225,7 @@ button:hover {
   font-size: 1.25rem;
   margin-bottom: 0.2rem;
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);  /* 统一文字阴影 */
+  color: #ffffff;      /* ★ 标题全改白色 */
 }
 
 .home-card-icon {
@@ -237,7 +238,7 @@ button:hover {
 
 .home-card p {
   font-size: 0.9rem;
-  color: #9ca3af;
+  color: #ffffff;
   flex: 1;
 }
 
@@ -254,7 +255,7 @@ button:hover {
   padding: 0.2rem 0.6rem;
   border-radius: 999px;
   border: 1px solid #374151;
-  color: #9ca3af;
+  color: #ffffff;
 }
 
     .quiz-toolbar {
@@ -339,6 +340,13 @@ button:hover {
 
   border-radius: 18px;
   color: #e5e7eb;
+}
+
+/* 统一强制所有卡片文字为白色 */
+.home-card,
+.home-card h2,
+.home-card p {
+  color: #ffffff !important;
 }
 
 
@@ -441,7 +449,7 @@ body::before {
   justify-content: center;
   align-items: center;
 
-  font-size: 13px;   /* 图标更容易看 */
+  font-size: 24px;   /* 图标更容易看 */
   line-height: 1;
 
   border-radius: 50%;

@@ -215,8 +215,8 @@ button:hover {
   justify-content: space-between;
   gap: 0.6rem;
   transition: transform 0.08s ease-out, box-shadow 0.1s ease-out, border-color 0.1s;
+  height: 220px;        /* 或 210 / 230，自行微调，推荐 220 */
 
-  min-height: 210px;    /* ★ 加这一行，全体卡片变整齐 */
 }
 
 
@@ -374,10 +374,6 @@ button:hover {
   transform: translateY(-2px);
 }
 
-  background: rgba(15, 23, 42, 0.85);      /* 深色半透明 */
-  color: #e5e7eb;
-  border: 1px solid rgba(148, 163, 184, 0.8);
-}
 
 
 /* Rule / Definitions 选项按钮的正确 / 错误状态 */
@@ -397,12 +393,23 @@ button:hover {
   opacity: 0.96;
 }
 
-/* 强制手机端显示两列 */
-@media (max-width: 480px) {
+/* 默认（手机到中等屏）：两列等宽 */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+  padding: 1.5rem;
+  max-width: 960px;
+  margin: 0 auto 2rem;
+}
+
+/* 大屏：三列等宽 */
+@media (min-width: 900px) {
   .card-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
 
 /* 背景图 */
 /* 整体深色背景底色，用来叠加在模糊图下 */

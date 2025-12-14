@@ -1,9 +1,8 @@
 // Wrong Questions 练习页
 // 结构：[{ question, options[], answer }, ...]
 
-const WRONG_KEY = "uspapWrongQuestions";
-const VOICE_KEY = "uspapVoicePreference";
 const REINFORCE_KEY = "uspapReinforceQuestions";
+const VOICE_KEY = "uspapVoicePreference";
 
 let quizVoice = null;
 
@@ -96,9 +95,8 @@ let currentIndex = 0;
 let score = 0;
 let hasAnsweredCurrent = false;
 
-// ===== 读取错题：兼容老结构 =====
-function loadWrongQuestions() {
-  const raw = localStorage.getItem(WRONG_KEY);
+function loadReinforceQuestions() {
+  const raw = localStorage.getItem(REINFORCE_KEY);
   if (!raw) return [];
   try {
     const parsed = JSON.parse(raw);
@@ -110,35 +108,6 @@ function loadWrongQuestions() {
   }
 }
 
-/* ✅ 就在这里插入（只插一次） */
-
-// ===== Reinforce list 工具函数 =====
-function getList(key) {
-  const raw = localStorage.getItem(key);
-  if (!raw) return [];
-  try {
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveList(key, list) {
-  localStorage.setItem(key, JSON.stringify(list));
-}
-
-function addUnique(key, q) {
-  const list = getList(key);
-  const exists = list.some(item => item.question === q.question);
-  if (!exists) {
-    list.push(q);
-    saveList(key, list);
-  }
-}
-
-/* ⬆️ 插入到这里为止 */
-
 // 打乱数组
 function shuffleArray(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -147,10 +116,9 @@ function shuffleArray(arr) {
   }
 }
 
-
 // ===== 刷新错题 =====
 function refreshQuiz() {
-  wrongQuestions = loadWrongQuestions();
+  wrongQuestions = loadReinforceQuestions();
   if (!wrongQuestions || wrongQuestions.length === 0) {
     currentIndex = 0;
     score = 0;
@@ -166,10 +134,10 @@ function refreshQuiz() {
 
 // 没有错题时
 function renderEmptyState() {
-  questionEl.textContent = "No wrong questions yet. 🎉";
+  questionEl.textContent = "No reinforce questions yet. 🎉";
   optionsEl.innerHTML = "";
   feedbackEl.textContent =
-    "Keep practicing in Definitions · Rule · Standard, then come back here to focus your weak points.";
+    "Go to Wrong Questions. If you miss a question there again, it will appear here for intensive review.";
   feedbackEl.className = "quiz-feedback correct";
   progressEl.textContent = "";
   nextBtn.disabled = true;
@@ -241,9 +209,6 @@ function handleAnswer(selectedIndex) {
     // 错误：不显示正确答案文字
     feedbackEl.textContent = "";
     feedbackEl.className = "quiz-feedback incorrect";
-    // ✅ 只有在 Wrong 页面答错，才进入 Reinforce    
-    addUnique(REINFORCE_KEY, q);
-
   }
 
   progressEl.textContent =
@@ -276,7 +241,7 @@ function goToNextQuestion() {
 // 清空错题本
 function clearAllWrongQuestions() {
   if (confirm("Clear all wrong questions? 这是清空错题本，确定吗？")) {
-    localStorage.removeItem(WRONG_KEY);
+    localStorage.removeItem(REINFORCE_KEY);
     wrongQuestions = [];
     currentIndex = 0;
     score = 0;
